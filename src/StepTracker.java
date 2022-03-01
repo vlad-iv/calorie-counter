@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.HashMap;
 
 /**
  * // TODO .
@@ -7,65 +7,35 @@ import java.util.Scanner;
  */
 public class StepTracker {
 
-	Scanner scanner;
-	Converter converter;
-	MonthData[] monthToData;
-	int цель;
+	private int цель;
+	private final HashMap<Integer, Месяц> годМесяцШаги = new HashMap<>();
 
-	StepTracker(Scanner scan) {
-		scanner = scan;
-		converter = new Converter();
+	/**
+	 * Сохраняет цель.
+	 *
+	 * @param количество
+	 */
+	public void задатьКоличествоШагов(int количество) {
+		System.out.println("Сохранили цель: " + количество);
+		цель = количество;
+	}
 
-		monthToData = new MonthData[12];
-		for (int i = 0; i < 12; i++) {
-			monthToData[i] = new MonthData();
+	/**
+	 * Сохраняет количество шагов за день.
+	 * Преполагаем в каждом месяце 30 дней.
+	 */
+	public void сохранитьШаги(int год, int месяц, int день, int шаги) {
+		System.out.println("Сохранила шаги: " + шаги);
+		final int годаВмесяцах = год * 12 + месяц;
+		Месяц шагиЗаМесяц = годМесяцШаги.get(годаВмесяцах);
+		if (шагиЗаМесяц == null) {
+			шагиЗаМесяц = new Месяц();
+			годМесяцШаги.put(годаВмесяцах, шагиЗаМесяц);
 		}
+		шагиЗаМесяц.задатьШаги(день, шаги);
 	}
 
-	void addNewNumberStepsPerDay() {
-		System.out.println("Введите номер месяца (0 - 11)");
-		printMonth();
-		int month = scanner.nextInt();
-		// ввод и проверка номера месяца
-
-		System.out.println("Введите день от 1 до 30 (включительно)");
-		int day = scanner.nextInt();
-		// ввод и проверка дня
-
-		System.out.println("Введите количество шагов");
-		int step = scanner.nextInt();
-		// ввод и проверка количества шагов
-
-		// сохранение данных
-		MonthData monthData = monthToData[month];
-		int[] days = monthData.days;
-		days[day - 1] = step;
-	}
-
-	void printStatistic() {
-		System.out.println("Введите число месяца (0 - 11)");
-		printMonth();
-		int month = scanner.nextInt();
-		if (month < 0 || month > 11) {
-			// Ошибка
-			return;
-		}
-		// ввод и проверка номера месяца
-		MonthData monthData = monthToData[month];
-		System.out.println("вывод общей статистики");
-		System.out.println("вывод суммы шагов за месяц: " + monthData.sumStepsFromMonth());
-		System.out.println("вывод максимального пройденного количества шагов за месяц:" + monthData.sumStepsFromMonth());
-		System.out.println("подсчёт и вывод максимального пройденного количества шагов за месяц");
-		System.out.println("вывод пройденной за месяц дистанции в км: " + converter.stepToKm(monthData.sumStepsFromMonth()));
-		System.out.println("вывод количества сожжённых килокалорий за месяц");
-		System.out.println("вывод лучшей серии");
-		System.out.println(); //дополнительный перенос строки
-	}
-	private void printMonth() {
-		System.out.println("Январь - 0, .... Декабрь - 11");
-	}
-	public void задатьЦель() {
-		System.out.println("Введите  цель:");
-		цель = scanner.nextInt();
+	public String цель() {
+		return String.valueOf(цель);
 	}
 }
