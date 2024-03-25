@@ -1,4 +1,10 @@
+package service;
+
+import java.io.PrintStream;
 import java.util.HashMap;
+
+import model.StepData;
+import model.Месяц;
 
 /**
  * // TODO .
@@ -8,7 +14,18 @@ import java.util.HashMap;
 public class StepTracker {
 
 	private int цель;
-	private final HashMap<Integer, Месяц> годМесяцШаги = new HashMap<>();
+	private final HashMap<Integer, Месяц> годМесяцШаги;
+	private PrintStream out;
+
+	public StepTracker() {
+		this(System.out);
+	}
+
+	public StepTracker(PrintStream out) {
+		this.цель = 10_000;
+		this.годМесяцШаги = new HashMap<>();
+		this.out = out;
+	}
 
 	/**
 	 * Сохраняет цель.
@@ -16,7 +33,7 @@ public class StepTracker {
 	 * @param количество
 	 */
 	public void задатьКоличествоШагов(int количество) {
-		System.out.println("Сохранили цель: " + количество);
+		out.println("Сохранили цель: " + количество);
 		цель = количество;
 	}
 
@@ -24,15 +41,15 @@ public class StepTracker {
 	 * Сохраняет количество шагов за день.
 	 * Преполагаем в каждом месяце 30 дней.
 	 */
-	public void сохранитьШаги(int год, int месяц, int день, int шаги) {
-		System.out.println("Сохранила шаги: " + шаги);
-		final int годаВмесяцах = год * 12 + месяц;
+	public void сохранитьШаги(StepData data) {
+		out.println("Сохранила шаги: " + data.шаги);
+		final int годаВмесяцах = data.получитьГодаВмесяцах();
 		Месяц шагиЗаМесяц = годМесяцШаги.get(годаВмесяцах);
 		if (шагиЗаМесяц == null) {
 			шагиЗаМесяц = new Месяц();
 			годМесяцШаги.put(годаВмесяцах, шагиЗаМесяц);
 		}
-		шагиЗаМесяц.задатьШаги(день, шаги);
+		шагиЗаМесяц.задатьШаги(data.день, data.шаги);
 	}
 
 	public String цель() {
