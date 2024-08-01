@@ -1,8 +1,10 @@
 package service;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.MonthData;
 import model.StepData;
 import model.Месяц;
 
@@ -14,7 +16,7 @@ import model.Месяц;
 public class StepTracker {
 
 	private int цель;
-	private final HashMap<Integer, Месяц> годМесяцШаги;
+	private final MonthData[] месяцШаги;
 	private PrintStream out;
 
 	public StepTracker() {
@@ -23,7 +25,10 @@ public class StepTracker {
 
 	public StepTracker(PrintStream out) {
 		this.цель = 10_000;
-		this.годМесяцШаги = new HashMap<>();
+		this.месяцШаги = new MonthData[12];
+		for (int i = 0; i < 12; i++) {
+			месяцШаги[i] = new MonthData();
+		}
 		this.out = out;
 	}
 
@@ -44,11 +49,11 @@ public class StepTracker {
 	public void сохранитьШаги(StepData data) {
 		out.println("Сохранила шаги: " + data.шаги);
 		final int годаВмесяцах = data.получитьГодаВмесяцах();
-		Месяц шагиЗаМесяц = годМесяцШаги.get(годаВмесяцах);
-		if (шагиЗаМесяц == null) {
-			шагиЗаМесяц = new Месяц();
-			годМесяцШаги.put(годаВмесяцах, шагиЗаМесяц);
-		}
+		MonthData шагиЗаМесяц = месяцШаги[годаВмесяцах];
+//		if (шагиЗаМесяц == null) {
+//			шагиЗаМесяц = new MonthData();
+//			месяцШаги[годаВмесяцах] = шагиЗаМесяц;
+//		}
 		шагиЗаМесяц.задатьШаги(data.день, data.шаги);
 	}
 

@@ -7,7 +7,7 @@ package service;
  */
 public class Converter {
 	public double stepToKm(final int step) {
-//		return step * 0.000_075;
-		return step * STEP_IN_CM / CM_IN_KM;
+		return step * 0.000_075;
+//		return step * STEP_IN_CM / CM_IN_KM;
 	}
 }

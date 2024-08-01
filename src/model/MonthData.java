@@ -29,6 +29,8 @@ public class MonthData {
 		return maxSteps;
 	}
 
+	// 1-2 по 10_000 и 28-30 - 11_000
+	// 28-30 - 11_000
 	int bestSeries(int goalByStepsPerDay) {
 		int bestSession = 0;
 		int countBest = 0;
@@ -42,5 +44,9 @@ public class MonthData {
 			// поиск максимальной серии
 		}
 		return countBest;
+	}
+
+	public void задатьШаги(int день, int шаги) {
+		days[день - 1] = шаги;
 	}
 }

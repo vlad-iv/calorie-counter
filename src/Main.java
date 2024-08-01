@@ -30,7 +30,7 @@ public class Main {
 					final int месяц = Integer.parseInt(колонки[0]);
 					final int день = Integer.parseInt(колонки[1]);
 					final int шаги = Integer.parseInt(колонки[2]);
-					stepTracker.сохранитьШаги(2022, месяц, день, шаги);
+					stepTracker.сохранитьШаги(new StepData(2022, месяц, день, шаги));
 
 				}
 
